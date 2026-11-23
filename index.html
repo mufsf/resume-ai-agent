@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>简历与面试 AI 智能体</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">AI</div>
+      <div>
+        <div class="brand-title">简历与面试 AI 智能体</div>
+        <div class="brand-sub">求职辅助 · 不代写 · 不照搬</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span class="status-dot"></span><span class="status-text">在线</span>
+      <a href="admin.html" class="admin-link" title="使用统计">数据</a>
+    </div>
+  </header>
+
+  <div class="ethics-banner">
+    <span class="ethics-icon">!</span>
+    本工具仅作求职辅助，内容请以你的真实经历为准，请勿直接复制投递或面试照读。
+  </div>
+
+  <main class="chat" id="chat">
+    <div class="msg ai" data-role="ai">
+      <div class="avatar">AI</div>
+      <div class="bubble" id="openingBubble"></div>
+    </div>
+  </main>
+
+  <div class="quick" id="quick">
+    <button class="chip" data-q="帮我诊断简历">🔍 简历诊断</button>
+    <button class="chip" data-q="帮我润色这段经历">✏️ 简历润色</button>
+    <button class="chip" data-q="模拟面试">🎤 模拟面试</button>
+    <button class="chip" data-q="生成AI运维实习面试题">📋 面试题库</button>
+    <button class="chip" data-q="求职投递要注意什么">💡 求职提示</button>
+  </div>
+
+  <footer class="inputbar">
+    <textarea id="input" rows="1" placeholder="粘贴简历，或告诉我你的问题…（Enter 发送，Shift+Enter 换行）"></textarea>
+    <button id="send" class="send" aria-label="发送">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z" fill="currentColor"/></svg>
+    </button>
+  </footer>
+  <div class="foot-note">由 AI 生成，仅供学习参考 · 请勿照搬投递</div>
+</div>
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
