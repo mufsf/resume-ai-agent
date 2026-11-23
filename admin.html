@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能体 · 使用数据</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="admin-wrap">
+  <h1>智能体 · 使用数据</h1>
+  <div class="sub">以下为本机真实使用统计（浏览器本地记录）· 生成时间 <span id="now"></span></div>
+
+  <div class="cards">
+    <div class="stat-card"><div class="num" id="s-visits">0</div><div class="label">访问次数</div></div>
+    <div class="stat-card"><div class="num" id="s-chats">0</div><div class="label">对话消息数</div></div>
+    <div class="stat-card"><div class="num" id="s-days">0</div><div class="label">使用天数</div></div>
+  </div>
+
+  <div class="panel">
+    <h2>各功能使用分布</h2>
+    <table><thead><tr><th>功能</th><th>次数</th><th style="width:40%">占比</th></tr></thead>
+      <tbody id="intentRows"></tbody></table>
+  </div>
+
+  <div class="panel">
+    <h2>每日数据</h2>
+    <table><thead><tr><th>日期</th><th>访问</th><th>对话</th></tr></thead>
+      <tbody id="dailyRows"></tbody></table>
+  </div>
+
+  <div class="sub" style="color:#B26A00;background:#FFF6E5;padding:12px 14px;border-radius:10px">
+    说明：静态网页没有服务器，本页统计记录在<b>当前浏览器本机</b>（localStorage），数据真实、可截图，用于展示你自己的使用与推广过程。
+    若要统计所有同学的使用总量，需另配服务端统计（见交付说明）。请勿手动修改数据。
+  </div>
+  <a href="index.html" class="back">← 返回智能体</a>
+</div>
+<script>
+(function(){
+  var NAMES = {
+    diagnose:'简历诊断', polish:'简历润色', interview:'模拟面试',
+    answer:'面试作答', bank:'面试题库', tips:'求职提示',
+    ethics:'伦理拦截', unknown:'其他/开场', exit:'结束面试'
+  };
+  document.getElementById('now').textContent = new Date().toLocaleString('zh-CN');
+  var s = {};
+  try { s = JSON.parse(localStorage.getItem('ai_agent_stats_v1') || '{}'); } catch(e){}
+  var visits = s.visits || 0, chats = s.chats || 0;
+  var daily = s.daily || {}, intents = s.intents || {};
+  var days = Object.keys(daily);
+
+  document.getElementById('s-visits').textContent = visits;
+  document.getElementById('s-chats').textContent = chats;
+  document.getElementById('s-days').textContent = days.length;
+
+  var total = chats || 1;
+  var rows = Object.keys(intents).sort(function(a,b){return intents[b]-intents[a];}).map(function(k){
+    var n = intents[k]; var pct = Math.round(n/total*100);
+    return '<tr><td>'+(NAMES[k]||k)+'</td><td>'+n+'</td><td><div class="bar"><i style="width:'+pct+'%"></i></div></td></tr>';
+  }).join('');
+  document.getElementById('intentRows').innerHTML = rows || '<tr><td colspan="3" style="color:#9AA3AF">暂无数据，去对话试试</td></tr>';
+
+  var drows = days.sort().reverse().map(function(k){
+    return '<tr><td>'+k+'</td><td>'+(daily[k].visits||0)+'</td><td>'+(daily[k].chats||0)+'</td></tr>';
+  }).join('');
+  document.getElementById('dailyRows').innerHTML = drows || '<tr><td colspan="3" style="color:#9AA3AF">暂无数据</td></tr>';
+})();
+</script>
+</body>
+</html>
